@@ -210,6 +210,32 @@
             cursor: default;
             transform: scale(1);
         }
+
+        /* Flying Hug Animation */
+        @keyframes float-hug {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+
+            20% {
+                opacity: 1;
+                transform: translateY(-20px) scale(1.5);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-150px) scale(1);
+            }
+        }
+
+        .flying-hug {
+            position: fixed;
+            font-size: 6rem;
+            pointer-events: none;
+            z-index: 9999;
+            animation: float-hug 2s ease-out forwards;
+        }
     </style>
 </head>
 
@@ -287,14 +313,7 @@
                 </div>
             </div>
 
-            <!-- Photo Placeholder -->
-            <div
-                class="w-64 h-64 mx-auto mb-8 rounded-full bg-white/30 backdrop-blur-md border-4 border-white/50 flex items-center justify-center shadow-2xl floating-image overflow-hidden">
-                <div class="text-center p-4">
-                    <div class="text-6xl mb-2">📸</div>
-                    <p class="text-white text-sm">Our Photo Here</p>
-                </div>
-            </div>
+
 
             <button onclick="location.reload()"
                 class="bg-white text-pink-600 font-bold py-3 px-8 rounded-full text-lg shadow-lg hover:bg-pink-50 transition-all duration-300 hover:scale-105">
@@ -487,24 +506,19 @@
         // ===== HUG COUPON =====
         const coupon = document.getElementById('hug-coupon');
         coupon.addEventListener('click', function () {
-            if (!this.classList.contains('redeemed')) {
-                this.classList.add('redeemed');
-                this.innerHTML = `
-                    <div class="flex items-center justify-center gap-2">
-                        <span class="text-2xl">🫂</span>
-                        <div class="text-left">
-                            <p class="font-bold text-lg romantic-font">Coupon Redeemed!</p>
-                            <p class="text-xs opacity-90">Valid forever & always ❤️</p>
-                        </div>
-                    </div>
-                `;
+            // Simple Replacement Logic: Just show a big hug emoji
+            this.innerHTML = `
+                <div class="flex items-center justify-center h-full">
+                    <span class="text-6xl animate-bounce">🫂</span>
+                </div>
+            `;
 
-                // Mini confetti for coupon
-                for (let i = 0; i < 30; i++) {
-                    createHeart();
-                }
+            // Still run confetti for fun
+            for (let i = 0; i < 30; i++) {
+                createHeart();
             }
         });
+        // createFlyingHug function removed as requested
     </script>
 </body>
 
