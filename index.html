@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Will You Be My Valentine?</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             overflow: hidden;
             background: linear-gradient(135deg, #ffeef8 0%, #ffe4e1 50%, #fff0f5 100%);
         }
-        
+
         .romantic-font {
             font-family: 'Dancing Script', cursive;
         }
-        
+
         /* Floating Hearts Animation */
         .heart {
             position: absolute;
@@ -27,38 +30,44 @@
             pointer-events: none;
             z-index: 0;
         }
-        
+
         @keyframes float-up {
             0% {
                 transform: translateY(100vh) rotate(0deg) scale(0);
                 opacity: 0;
             }
+
             10% {
                 opacity: 0.6;
             }
+
             90% {
                 opacity: 0.6;
             }
+
             100% {
                 transform: translateY(-10vh) rotate(360deg) scale(1);
                 opacity: 0;
             }
         }
-        
+
         /* Pulse Animation for Yes Button */
         @keyframes pulse-pink {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow: 0 0 0 0 rgba(255, 107, 157, 0.7);
             }
+
             50% {
                 box-shadow: 0 0 0 20px rgba(255, 107, 157, 0);
             }
         }
-        
+
         .pulse-btn {
             animation: pulse-pink 2s infinite;
         }
-        
+
         /* Glass Morphism Card */
         .glass-card {
             background: rgba(255, 255, 255, 0.25);
@@ -67,18 +76,26 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
         }
-        
+
         /* Typing Cursor */
         .typing-cursor::after {
             content: '|';
             animation: blink 1s infinite;
         }
-        
+
         @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            51%,
+            100% {
+                opacity: 0;
+            }
         }
-        
+
         /* Confetti Canvas */
         #confetti-canvas {
             position: fixed;
@@ -89,7 +106,7 @@
             pointer-events: none;
             z-index: 50;
         }
-        
+
         /* Success Modal */
         .success-modal {
             display: none;
@@ -104,26 +121,38 @@
             align-items: center;
             flex-direction: column;
         }
-        
+
         .success-modal.active {
             display: flex;
             animation: fadeIn 0.5s ease-out;
         }
-        
+
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
-        
+
         .floating-image {
             animation: float 3s ease-in-out infinite;
         }
-        
+
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
         }
-        
+
         /* Runaway Button Container */
         .button-area {
             position: relative;
@@ -134,18 +163,18 @@
             align-items: center;
             gap: 2rem;
         }
-        
+
         /* Runaway Button */
         #no-btn {
             position: relative;
             transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             z-index: 20;
         }
-        
+
         #no-btn.fleeing {
             position: absolute;
         }
-        
+
         /* Gradient Text */
         .gradient-text {
             background: linear-gradient(135deg, #ff6b9d, #c44569);
@@ -153,49 +182,80 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
         /* Yes Button stays on top */
         #yes-btn {
             position: relative;
             z-index: 30;
         }
+
+        /* Hug Coupon */
+        .coupon {
+            background-color: #ffe4e6;
+            border: 2px dashed #db2777;
+            color: #be185d;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .coupon:hover {
+            transform: scale(1.05);
+            background-color: #fce7f3;
+        }
+
+        .coupon.redeemed {
+            border-style: solid;
+            background-color: #db2777;
+            color: white;
+            cursor: default;
+            transform: scale(1);
+        }
     </style>
 </head>
+
 <body class="h-screen w-full flex items-center justify-center relative">
 
     <!-- Floating Hearts Container -->
     <div id="hearts-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
 
-    <!-- Confetti Canvas -->
-    <canvas id="confetti-canvas"></canvas>
-
     <!-- Main Card -->
     <div class="glass-card rounded-3xl p-8 md:p-12 max-w-lg w-full mx-4 text-center relative z-10">
-        
+
+        <!-- Name Label -->
+        <h1 class="romantic-font text-5xl md:text-6xl font-bold gradient-text mb-2 drop-shadow-sm animate-pulse">
+            ❤️ Chetna ❤️
+        </h1>
+
         <!-- Decorative Top -->
         <div class="text-4xl mb-4 animate-bounce">💝</div>
-        
+
         <!-- Question -->
-        <h1 id="question-text" class="romantic-font text-4xl md:text-5xl font-bold text-gray-800 mb-2 typing-cursor gradient-text">
+        <h1 id="question-text"
+            class="romantic-font text-4xl md:text-5xl font-bold text-gray-800 mb-2 typing-cursor gradient-text">
             Will you be my Valentine?
         </h1>
-        
-        <p class="text-gray-600 mt-4 mb-8 text-lg italic">"You're the CSS to my HTML... without you, I'd just be a skeleton!"</p>
-        
+
+        <p class="text-gray-600 mt-4 mb-8 text-lg italic">"You're the CSS to my HTML... without you, I'd just be a
+            skeleton!"</p>
+
+
+
         <!-- Buttons Container - Fixed Layout -->
         <div class="button-area">
-            
+
             <!-- Yes Button - Always stays in place -->
-            <button id="yes-btn" class="pulse-btn bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold py-4 px-10 rounded-full text-xl shadow-lg transform transition-all duration-300 hover:scale-110 hover:rotate-2">
+            <button id="yes-btn"
+                class="pulse-btn bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold py-4 px-10 rounded-full text-xl shadow-lg transform transition-all duration-300 hover:scale-110 hover:rotate-2">
                 Yes, I will! 💕
             </button>
-            
+
             <!-- No Button - The Runaway One -->
-            <button id="no-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-3 px-8 rounded-full text-lg shadow-md">
+            <button id="no-btn"
+                class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-semibold py-3 px-8 rounded-full text-lg shadow-md">
                 No 💔
             </button>
         </div>
-        
+
         <!-- Cute Footer -->
         <div class="mt-8 text-sm text-gray-500 flex items-center justify-center gap-2">
             <span>Made with</span>
@@ -214,16 +274,30 @@
             <p class="text-white text-xl md:text-2xl mb-8 font-light">
                 You've made me the happiest person alive! 💍
             </p>
-            
+
+            <!-- Hug Coupon -->
+            <div id="hug-coupon"
+                class="coupon mx-auto mb-8 p-4 rounded-lg max-w-xs shadow-sm bg-white/50 backdrop-blur-sm">
+                <div class="flex items-center justify-center gap-2">
+                    <span class="text-2xl">🎟️</span>
+                    <div class="text-left">
+                        <p class="font-bold text-lg romantic-font">Free Hug Coupon</p>
+                        <p class="text-xs opacity-75">Click to Redeem any time!</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Photo Placeholder -->
-            <div class="w-64 h-64 mx-auto mb-8 rounded-full bg-white/30 backdrop-blur-md border-4 border-white/50 flex items-center justify-center shadow-2xl floating-image overflow-hidden">
+            <div
+                class="w-64 h-64 mx-auto mb-8 rounded-full bg-white/30 backdrop-blur-md border-4 border-white/50 flex items-center justify-center shadow-2xl floating-image overflow-hidden">
                 <div class="text-center p-4">
                     <div class="text-6xl mb-2">📸</div>
                     <p class="text-white text-sm">Our Photo Here</p>
                 </div>
             </div>
-            
-            <button onclick="location.reload()" class="bg-white text-pink-600 font-bold py-3 px-8 rounded-full text-lg shadow-lg hover:bg-pink-50 transition-all duration-300 hover:scale-105">
+
+            <button onclick="location.reload()"
+                class="bg-white text-pink-600 font-bold py-3 px-8 rounded-full text-lg shadow-lg hover:bg-pink-50 transition-all duration-300 hover:scale-105">
                 Celebrate Again 🎉
             </button>
         </div>
@@ -239,21 +313,21 @@
             heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
             heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
             heart.style.animationDelay = Math.random() * 2 + 's';
-            
+
             document.getElementById('hearts-container').appendChild(heart);
-            
+
             setTimeout(() => {
                 heart.remove();
             }, 7000);
         }
-        
+
         setInterval(createHeart, 300);
-        
+
         // ===== TYPING EFFECT =====
         const text = "Will you be my Valentine?";
         const questionElement = document.getElementById('question-text');
         let index = 0;
-        
+
         function typeText() {
             if (index < text.length) {
                 questionElement.textContent = text.substring(0, index + 1);
@@ -263,95 +337,95 @@
                 questionElement.classList.remove('typing-cursor');
             }
         }
-        
+
         setTimeout(typeText, 500);
-        
+
         // ===== RUNAWAY NO BUTTON =====
         const noBtn = document.getElementById('no-btn');
         const yesBtn = document.getElementById('yes-btn');
         const buttonArea = document.querySelector('.button-area');
-        
+
         // Track mouse position for desktop
         document.addEventListener('mousemove', (e) => {
             const rect = noBtn.getBoundingClientRect();
             const btnCenterX = rect.left + rect.width / 2;
             const btnCenterY = rect.top + rect.height / 2;
-            
+
             const distance = Math.sqrt(
-                Math.pow(e.clientX - btnCenterX, 2) + 
+                Math.pow(e.clientX - btnCenterX, 2) +
                 Math.pow(e.clientY - btnCenterY, 2)
             );
-            
+
             // If mouse is within 100px of the No button, move it
             if (distance < 100) {
                 moveButton();
             }
         });
-        
+
         // Touch support for mobile
         document.addEventListener('touchmove', (e) => {
             const touch = e.touches[0];
             const rect = noBtn.getBoundingClientRect();
             const btnCenterX = rect.left + rect.width / 2;
             const btnCenterY = rect.top + rect.height / 2;
-            
+
             const distance = Math.sqrt(
-                Math.pow(touch.clientX - btnCenterX, 2) + 
+                Math.pow(touch.clientX - btnCenterX, 2) +
                 Math.pow(touch.clientY - btnCenterY, 2)
             );
-            
+
             if (distance < 100) {
                 moveButton();
             }
         });
-        
+
         function moveButton() {
             const areaRect = buttonArea.getBoundingClientRect();
-            
+
             // Calculate boundaries within the button area
             const padding = 20;
             const maxX = areaRect.width - noBtn.offsetWidth - padding;
             const maxY = areaRect.height - noBtn.offsetHeight - padding;
-            
+
             // Generate random position within the button area
-            const randomX = Math.random() * maxX + padding/2;
-            const randomY = Math.random() * maxY + padding/2;
-            
+            const randomX = Math.random() * maxX + padding / 2;
+            const randomY = Math.random() * maxY + padding / 2;
+
             // Add fleeing class for absolute positioning within container
             noBtn.classList.add('fleeing');
-            
+
             // Set new position
             noBtn.style.left = randomX + 'px';
             noBtn.style.top = randomY + 'px';
-            
+
             // Add a little rotation for fun
             noBtn.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
         }
-        
+
         // Also move on direct hover as backup
         noBtn.addEventListener('mouseenter', moveButton);
         noBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
             moveButton();
         });
-        
+
         // ===== YES BUTTON CLICK - CONFETTI & SUCCESS =====
         yesBtn.addEventListener('click', celebrate);
-        
+
         function celebrate() {
             document.getElementById('success-modal').classList.add('active');
             launchConfetti();
         }
-        
+
         // ===== CONFETTI SYSTEM =====
         const canvas = document.getElementById('confetti-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        
+
         const confettiParticles = [];
         const colors = ['#ff6b9d', '#c44569', '#f8b500', '#ff3838', '#ff9ff3', '#54a0ff'];
-        
+
         function launchConfetti() {
             for (let i = 0; i < 200; i++) {
                 confettiParticles.push({
@@ -367,15 +441,15 @@
                     drag: 0.99
                 });
             }
-            
+
             animateConfetti();
         }
-        
+
         function animateConfetti() {
             if (confettiParticles.length === 0) return;
-            
+
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
+
             confettiParticles.forEach((particle, index) => {
                 particle.x += particle.vx;
                 particle.y += particle.vy;
@@ -383,32 +457,55 @@
                 particle.vx *= particle.drag;
                 particle.vy *= particle.drag;
                 particle.rotation += particle.rotationSpeed;
-                
+
                 ctx.save();
                 ctx.translate(particle.x, particle.y);
                 ctx.rotate(particle.rotation * Math.PI / 180);
                 ctx.fillStyle = particle.color;
                 ctx.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size);
                 ctx.restore();
-                
+
                 if (particle.y > canvas.height + 50) {
                     confettiParticles.splice(index, 1);
                 }
             });
-            
+
             requestAnimationFrame(animateConfetti);
         }
-        
+
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
-        
+
         // ===== REDUCED MOTION CHECK =====
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             document.querySelectorAll('.heart').forEach(el => el.style.animation = 'none');
             noBtn.style.transition = 'none';
         }
+
+        // ===== HUG COUPON =====
+        const coupon = document.getElementById('hug-coupon');
+        coupon.addEventListener('click', function () {
+            if (!this.classList.contains('redeemed')) {
+                this.classList.add('redeemed');
+                this.innerHTML = `
+                    <div class="flex items-center justify-center gap-2">
+                        <span class="text-2xl">🫂</span>
+                        <div class="text-left">
+                            <p class="font-bold text-lg romantic-font">Coupon Redeemed!</p>
+                            <p class="text-xs opacity-90">Valid forever & always ❤️</p>
+                        </div>
+                    </div>
+                `;
+
+                // Mini confetti for coupon
+                for (let i = 0; i < 30; i++) {
+                    createHeart();
+                }
+            }
+        });
     </script>
 </body>
+
 </html>
